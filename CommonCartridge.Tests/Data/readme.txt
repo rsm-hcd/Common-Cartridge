@@ -1,0 +1,1 @@
+This folder contains any sample CC or TCC .xml manifest files you want to test.
