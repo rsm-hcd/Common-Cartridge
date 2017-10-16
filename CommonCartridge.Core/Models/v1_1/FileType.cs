@@ -14,6 +14,7 @@ using System.Xml.Schema;
 using System.ComponentModel;
 using System.Xml;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
 [System.SerializableAttribute()]
@@ -25,6 +26,8 @@ public partial class FileType
 {
     
     #region Private fields
+    private XDocument _data;
+
     private MetadataType _metadata;
     
     private string _href;
@@ -33,6 +36,19 @@ public partial class FileType
     public FileType()
     {
         this._metadata = new MetadataType();
+    }
+
+    [System.Xml.Serialization.XmlIgnore]
+    public XDocument Data
+    {
+        get
+        {
+            return this._data;
+        }
+        set
+        {
+            this._data = value;
+        }
     }
     
     [System.Xml.Serialization.XmlElementAttribute("metadata")]

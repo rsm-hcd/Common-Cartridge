@@ -14,6 +14,7 @@ using System.Xml.Schema;
 using System.ComponentModel;
 using System.Xml;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
 [System.SerializableAttribute()]
@@ -23,8 +24,10 @@ using System.Collections.Generic;
 [System.Xml.Serialization.XmlRootAttribute("FileType")]
 public partial class FileType
 {
-    
+
     #region Private fields
+    private XDocument _data;
+
     private MetadataType _metadata;
     
     private List<System.Xml.XmlElement> _any;
@@ -39,6 +42,19 @@ public partial class FileType
         this._anyAttr = new List<System.Xml.XmlAttribute>();
         this._any = new List<System.Xml.XmlElement>();
         this._metadata = new MetadataType();
+    }
+
+    [System.Xml.Serialization.XmlIgnore]
+    public XDocument Data
+    {
+        get
+        {
+            return this._data;
+        }
+        set
+        {
+            this._data = value;
+        }
     }
     
     [System.Xml.Serialization.XmlElementAttribute("metadata")]

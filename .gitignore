@@ -82,7 +82,8 @@ dotnet/CCA/packages/
 
 ## Project
 *.cache
-CommonCartridge.Tests/Data/*.xml
+CommonCartridge.Tests/Data/*
+!CommonCartridge.Tests/Data/readme.txt
 well-known
 
 ## Node

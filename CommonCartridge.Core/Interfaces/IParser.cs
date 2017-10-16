@@ -1,10 +1,11 @@
-﻿using CommonCartridge.Core.Models.v1_2;
+﻿using CommonCartridge.Core.Models;
 
 namespace CommonCartridge.Core.Interfaces
 {
     public interface IParser
     {
-        ManifestType FromFile(string absolutePath);
-        ManifestType FromXml(string content);
+        ParserResult FromArchive(string path);
+        ParserResult FromFile(string path, string directory);
+        ParserResult FromXml(string content, string directory);
     }
 }

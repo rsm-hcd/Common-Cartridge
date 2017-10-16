@@ -14,6 +14,7 @@ using System.Xml.Schema;
 using System.ComponentModel;
 using System.Xml;
 using System.Collections.Generic;
+using System.Linq;
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2102.0")]
 [System.SerializableAttribute()]
@@ -34,11 +35,11 @@ public partial class TaxonPathType
     {
         get
         {
-            return this._taxon;
+            return this._taxon.ToList();
         }
         set
         {
-            this._taxon = value;
+            this._taxon = value.ToArray();
         }
     }
 }

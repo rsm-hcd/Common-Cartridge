@@ -25,7 +25,7 @@ public partial class LifeCycleType
 {
     
     #region Private fields
-    private object[][] _contribute;
+    private List<object> _contribute;
     #endregion
     
     [System.Xml.Serialization.XmlArrayItemAttribute("date", typeof(DateTimeType), IsNullable=false, ElementName="contribute")]
