@@ -3,14 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>AndcultureCode.CommonCartridge.Parser</PackageId>
-    <PackageVersion>1.0.3</PackageVersion>
+    <PackageVersion>1.0.4</PackageVersion>
     <Authors>AndcultureCode</Authors>
     <Description>.NET Parsing utility for Common Cartridge manifest files and archives.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>Add project Readme</PackageReleaseNotes>
+    <PackageReleaseNotes>Update version parser to support searching for lti version by prefix</PackageReleaseNotes>
     <Copyright>Copyright 2017 (c)</Copyright>
     <PackageTags>IMS CommonCartridge Parser</PackageTags>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
   </PropertyGroup>
 
   <ItemGroup>

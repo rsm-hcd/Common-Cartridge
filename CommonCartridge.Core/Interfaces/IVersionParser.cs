@@ -2,7 +2,7 @@
 {
     public interface IVersionParser
     {
-        string GetSchemaVersionFromFile(string path);
-        string GetSchemaVersion(string content);
+        string GetSchemaVersionFromFile(string path, string prefix = "imscc");
+        string GetSchemaVersion(string content, string prefix = "imscc");
     }
 }

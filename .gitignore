@@ -77,7 +77,6 @@ obj
 connectionStrings.config
 release
 BuildArtifacts/
-dotnet/CCA/packages/
 .vs
 
 ## Project

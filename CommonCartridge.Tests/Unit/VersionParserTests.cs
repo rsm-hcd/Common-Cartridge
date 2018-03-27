@@ -57,7 +57,7 @@ namespace CommonCartridge.Tests.Unit
             var absolutePath = Path.Combine(RootFilePath, "BasicLTI.xml");
 
             // Act
-            var result = _sut.GetSchemaVersionFromFile(absolutePath);
+            var result = _sut.GetSchemaVersionFromFile(absolutePath, "imslti");
 
             // Assert
             result.ShouldNotBeNull();

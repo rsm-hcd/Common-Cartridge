@@ -9,7 +9,7 @@ namespace CommonCartridge.Core
 {
     public class VersionParser : IVersionParser
     {
-        public string GetSchemaVersionFromFile(string path)
+        public string GetSchemaVersionFromFile(string path, string prefix = "imscc")
         {
             string result = null;
 
@@ -19,12 +19,12 @@ namespace CommonCartridge.Core
             }
 
             // Open file using StreamReader
-            result = GetSchemaVersion(File.ReadAllText(path));
+            result = GetSchemaVersion(File.ReadAllText(path), prefix);
 
             return result;
         }
 
-        public string GetSchemaVersion(string content)
+        public string GetSchemaVersion(string content, string prefix = "imscc")
         {
             string result = null;
 
@@ -42,8 +42,12 @@ namespace CommonCartridge.Core
                 result = document.Descendants(document.Root.Name.Namespace + "schemaversion").FirstOrDefault().Value;
             } else
             {
+                if (!prefix.StartsWith("ims", StringComparison.OrdinalIgnoreCase))
+                {
+                    prefix = $"ims{prefix}";
+                }
                 var docNamespace = document.Root.Name.NamespaceName;
-                var pattern = @"\/xsd\/\w*v(\d)p(\d)+";
+                var pattern = $@"\/xsd\/{prefix}\w*v(\d)p(\d)+";
                 var matches = Regex.Match(docNamespace, pattern);
 
                 if (matches.Success && matches.Groups.Count > 2)
