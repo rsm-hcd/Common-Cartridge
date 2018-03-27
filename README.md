@@ -20,7 +20,7 @@ var parser = new Parser();
 var versionParser = new VersionParser();
 
 // Check Version
-var version = versionParser.GetSchemaVersion(fileContent, "imscc");
+var version = versionParser.GetSchemaVersion(fileContent);
 
 if (version == Versions.VERSION_1_0)
 {
@@ -53,7 +53,7 @@ var parser = new Parser();
 var versionParser = new VersionParser();
 
 // Check Version
-var version = versionParser.GetSchemaVersion(fileContent, "imslti");
+var version = versionParser.GetSchemaVersion(fileContent, "blti");
 
 if (version == Versions.VERSION_1_0)
 {

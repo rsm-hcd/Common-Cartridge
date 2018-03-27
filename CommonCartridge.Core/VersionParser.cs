@@ -3,13 +3,15 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace CommonCartridge.Core
 {
     public class VersionParser : IVersionParser
     {
-        public string GetSchemaVersionFromFile(string path, string prefix = "imscc")
+        public string GetSchemaVersionFromFile(string path, string prefix = "")
         {
             string result = null;
 
@@ -24,7 +26,7 @@ namespace CommonCartridge.Core
             return result;
         }
 
-        public string GetSchemaVersion(string content, string prefix = "imscc")
+        public string GetSchemaVersion(string content, string prefix = "")
         {
             string result = null;
 
@@ -42,12 +44,19 @@ namespace CommonCartridge.Core
                 result = document.Descendants(document.Root.Name.Namespace + "schemaversion").FirstOrDefault().Value;
             } else
             {
-                if (!prefix.StartsWith("ims", StringComparison.OrdinalIgnoreCase))
-                {
-                    prefix = $"ims{prefix}";
-                }
                 var docNamespace = document.Root.Name.NamespaceName;
-                var pattern = $@"\/xsd\/{prefix}\w*v(\d)p(\d)+";
+                if (!string.IsNullOrWhiteSpace(prefix))
+                {
+                    var navigator = document.CreateNavigator();
+                    navigator.MoveToFollowing(XPathNodeType.Element);
+                    var namespaces = navigator.GetNamespacesInScope(XmlNamespaceScope.All);
+                    if (namespaces.ContainsKey(prefix))
+                    {
+                        docNamespace = namespaces[prefix];
+                    }
+                }
+
+                var pattern = $@"\/xsd\/\w*v(\d)p(\d)+";
                 var matches = Regex.Match(docNamespace, pattern);
 
                 if (matches.Success && matches.Groups.Count > 2)
