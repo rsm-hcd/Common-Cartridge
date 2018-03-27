@@ -1,6 +1,6 @@
 # Common Cartridge Dotnet core parser
 
-Dotnet Core Package for parsing LTI & Common Cartridge XML files into C# classes. XDT files downloaded from the [https://www.imsglobal.org/technical-resources](IMS Global Technical Resources) page
+Dotnet Core Package for parsing LTI & Common Cartridge XML files into C# classes. XDT files downloaded from the [IMS Global Technical Resources](https://www.imsglobal.org/technical-resources) page
 
 ## Installation
 
