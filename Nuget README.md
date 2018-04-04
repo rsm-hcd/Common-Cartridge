@@ -74,17 +74,31 @@ if (version == Versions.VERSION_1_0)
 
 ### IParser
 
-Method | Return | Description
-----------|------|------------
-FromFile&lt;T&gt; | ParserResult<T> | Same as FromXml, but also loads file from specified path before parsing
-FromXml&lt;T&gt; | ParserResult<T> | Loads XML into XDocument and deserializes to provided class
-FromCCArchive&lt;T&gt; | ParserResult<T> | Verifies extension of archive, attemps to unzip into a temp directory, and looks for an imsmanifest.xml file to pass to FromCCFile
-FromCCFile&lt;T&gt; | ParserResult<T> | Same as FromCCXml, but also loads file from specified path before parsing
-FromCCXml&lt;T&gt; | ParserResult<T> | Loads XML into XDocument and deserializes to provided CC class
+FromLTIFile<T>
+Same as FromXml, but also loads file from specified path before parsing.
+Returns ParserResult<T>
+
+FromLTIXml<T>
+Loads XML into XDocument and deserializes to provided class.
+Returns ParserResult<T>
+
+FromCCArchive<T>
+Verifies extension of archive, attemps to unzip into a temp directory, and looks for an imsmanifest.xml file to pass to FromCCFile.
+Returns ParserResult<T>
+
+FromCCFile<T>
+Same as FromCCXml, but also loads file from specified path before parsing.
+Returns ParserResult<T>
+FromCCXml<T>
+Loads XML into XDocument and deserializes to provided CC class.
+Returns ParserResult<T>
 
 ### IVersionParser
 
-Method | Return | Description
-----------|------|------------
-GetSchemaVersionFromFile | string | Same as GetSchemaVersion, but also loads file from specified path before parsing
-GetSchemaVersion | string | Loads XML into XDocument attempts to read version string from XML schemaversion attribute. Second param (prefix) is optional, will attempt to read the version from a custom namespace. Default empty.
+GetSchemaVersionFromFile
+Same as GetSchemaVersion, but also loads file from specified path before parsing.
+Returns string
+
+GetSchemaVersion
+Loads XML into XDocument attempts to read version string from XML schemaversion attribute. Second param (prefix) is optional, will attempt to read the version from a custom namespace. Default empty.
+Returns string
