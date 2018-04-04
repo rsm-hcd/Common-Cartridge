@@ -25,7 +25,7 @@ public partial class ObjectbankType
 {
     
     #region Private fields
-    private List<QtimetadatafieldType> _qtimetadata;
+    private QtimetadataType _qtimetadata;
     
     private List<ItemType> _item;
     
@@ -35,11 +35,10 @@ public partial class ObjectbankType
     public ObjectbankType()
     {
         this._item = new List<ItemType>();
-        this._qtimetadata = new List<QtimetadatafieldType>();
     }
     
-    [System.Xml.Serialization.XmlArrayItemAttribute("qtimetadatafield", IsNullable=false, ElementName="qtimetadata")]
-    public List<QtimetadatafieldType> Qtimetadata
+    [System.Xml.Serialization.XmlElementAttribute("qtimetadata", IsNullable=false]
+    public QtimetadataType Qtimetadata
     {
         get
         {

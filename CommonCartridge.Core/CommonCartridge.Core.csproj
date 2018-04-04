@@ -3,14 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>AndcultureCode.CommonCartridge.Parser</PackageId>
-    <PackageVersion>1.0.7</PackageVersion>
+    <PackageVersion>1.0.8</PackageVersion>
     <Authors>AndcultureCode</Authors>
     <Description>.NET Parsing utility for Common Cartridge manifest files and archives.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>Add CC QTI XSD v1.2</PackageReleaseNotes>
+    <PackageReleaseNotes>Manual modifications of CC QTI XSD v1.2 and generated classes</PackageReleaseNotes>
     <Copyright>Copyright 2018 (c) Andculture</Copyright>
     <PackageTags>IMS CommonCartridge Parser</PackageTags>
-    <Version>1.0.7</Version>
+    <Version>1.0.8</Version>
   </PropertyGroup>
 
   <ItemGroup>

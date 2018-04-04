@@ -25,7 +25,7 @@ public partial class AssessmentType
 {
     
     #region Private fields
-    private List<QtimetadatafieldType> _qtimetadata;
+    private QtimetadataType _qtimetadata;
     
     private RubricType _rubric;
     
@@ -45,11 +45,10 @@ public partial class AssessmentType
         this._section = new SectionType();
         this._presentation_material = new List<Flow_matType>();
         this._rubric = new RubricType();
-        this._qtimetadata = new List<QtimetadatafieldType>();
     }
     
-    [System.Xml.Serialization.XmlArrayItemAttribute("qtimetadatafield", IsNullable=false, ElementName="qtimetadata")]
-    public List<QtimetadatafieldType> Qtimetadata
+    [System.Xml.Serialization.XmlElementAttribute("qtimetadata", IsNullable=false)]
+    public QtimetadataType Qtimetadata
     {
         get
         {

@@ -25,7 +25,7 @@ public partial class ItemType
 {
     
     #region Private fields
-    private List<QtimetadatafieldType> _itemmetadata;
+    private ItemmetadataType _itemmetadata;
     
     private PresentationType _presentation;
     
@@ -47,9 +47,8 @@ public partial class ItemType
         this._presentation = new PresentationType();
     }
     
-    [System.Xml.Serialization.XmlArrayItemAttribute("qtimetadata", IsNullable=false, ElementName="itemmetadata")]
-    [System.Xml.Serialization.XmlArrayItemAttribute("qtimetadatafield", IsNullable=false, NestingLevel=1)]
-    public List<QtimetadatafieldType> Itemmetadata
+    [System.Xml.Serialization.XmlElementAttribute("itemmetadata", IsNullable=false, ElementName="itemmetadata")]
+    public ItemmetadataType Itemmetadata
     {
         get
         {
