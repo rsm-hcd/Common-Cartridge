@@ -47,12 +47,12 @@ namespace CommonCartridge.Tests.Unit
             var absolutePath = Path.Combine(RootFilePath, "BasicLTI.xml");
 
             // Act
-            var result = _sut.FromLTIFile<Core.Models.v1_0.CartridgeBasicLTILinkType>(absolutePath);
+            var result = _sut.FromFile<Core.Models.v1_0.CartridgeBasicLTILinkType>(absolutePath);
 
             // Assert
             result.ShouldNotBeNull();
             result.HasErrors.ShouldBe(false);
-            var basicLti = result.BasicLTI as Core.Models.v1_0.CartridgeBasicLTILinkType;
+            var basicLti = result.ResultObject as Core.Models.v1_0.CartridgeBasicLTILinkType;
             basicLti.ShouldNotBeNull();
             basicLti.Secure_launch_url.ShouldNotBeNullOrWhiteSpace();
         }
@@ -69,7 +69,7 @@ namespace CommonCartridge.Tests.Unit
             // Assert
             result.ShouldNotBeNull();
             result.HasErrors.ShouldBe(false);
-            var manifest = result.Manifest as Core.Models.v1_2.ManifestType;
+            var manifest = result.ResultObject as Core.Models.v1_2.ManifestType;
             manifest.ShouldNotBeNull();
             manifest.Metadata.Lom.ShouldNotBeNull();
             manifest.Metadata.Lom.Items.ShouldNotBeNull();
@@ -96,7 +96,7 @@ namespace CommonCartridge.Tests.Unit
             // Assert
             result.ShouldNotBeNull();
             result.HasErrors.ShouldBe(false);
-            var manifest = result.Manifest as Core.Models.v1_2.ManifestType;
+            var manifest = result.ResultObject as Core.Models.v1_2.ManifestType;
             manifest.ShouldNotBeNull();
             manifest.Metadata.Schema.ShouldNotBeNull();
             manifest.Organizations.ShouldNotBeNull();
@@ -107,6 +107,28 @@ namespace CommonCartridge.Tests.Unit
             manifest.Resources.ShouldNotBeNull();
             manifest.Resources.Resource.ShouldNotBeNull();
             manifest.Resources.Resource.Count.ShouldBeGreaterThan(0);
+        }
+
+        [Test]
+        public void Load_Valid_QTI_1_2_File_Returns_Valid_Object()
+        {
+            // Arrange
+            var absolutePath = Path.Combine(RootFilePath, "assessment_qti.xml");
+
+            // Act
+            var result = _sut.FromFile<Core.Models.QTIv1_2.QuestestinteropType>(absolutePath);
+
+            // Assert
+            result.ShouldNotBeNull();
+            result.HasErrors.ShouldBe(false);
+            var qti = result.ResultObject as Core.Models.QTIv1_2.QuestestinteropType;
+            qti.ShouldNotBeNull();
+            qti.Item.ShouldNotBeNull();
+            var item = qti.Item as Core.Models.QTIv1_2.AssessmentType;
+            item.ShouldNotBeNull();
+            item.Section.ShouldNotBeNull();
+            item.Section.Item.ShouldNotBeNull();
+            item.Section.Item.Count.ShouldBeGreaterThan(0);
         }
     }
 }

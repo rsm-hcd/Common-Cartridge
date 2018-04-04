@@ -64,5 +64,20 @@ namespace CommonCartridge.Tests.Unit
             result.Length.ShouldBeGreaterThan(0);
             result.ShouldBe(Versions.VERSION_1_0);
         }
+
+        [Test]
+        public void Read_Version_On_QTI()
+        {
+            // Arrange
+            var absolutePath = Path.Combine(RootFilePath, "assessment_qti.xml");
+
+            // Act
+            var result = _sut.GetSchemaVersionFromFile(absolutePath);
+
+            // Assert
+            result.ShouldNotBeNull();
+            result.Length.ShouldBeGreaterThan(0);
+            result.ShouldBe(Versions.VERSION_1_2);
+        }
     }
 }

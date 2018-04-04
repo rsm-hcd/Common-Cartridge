@@ -13,9 +13,9 @@ namespace CommonCartridge.Core
 {
     public class Parser : IParser
     {
-        public BasicLTIParserResult FromLTIFile<T>(string path)
+        public ParserResult<T> FromFile<T>(string path)
         {
-            var result = new BasicLTIParserResult();
+            var result = new ParserResult<T>();
 
             if (!File.Exists(path))
             {
@@ -28,7 +28,7 @@ namespace CommonCartridge.Core
             try
             {
                 // Open file using StreamReader
-                result = FromLTIXml<T>(File.ReadAllText(path));
+                result = FromXml<T>(File.ReadAllText(path));
 
             }
             catch (Exception ex)
@@ -40,9 +40,9 @@ namespace CommonCartridge.Core
             return result;
         }
 
-        public BasicLTIParserResult FromLTIXml<T>(string content)
+        public ParserResult<T> FromXml<T>(string content)
         {
-            var result = new BasicLTIParserResult();
+            var result = new ParserResult<T>();
 
             if (content == null || string.IsNullOrWhiteSpace(content))
             {
@@ -58,7 +58,7 @@ namespace CommonCartridge.Core
                 var serializer = new XmlSerializer(typeof(T));
                 using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
                 {
-                    result.BasicLTI = serializer.Deserialize(stream);
+                    result.ResultObject = (T)serializer.Deserialize(stream);
                 }
             }
             catch (Exception ex)
@@ -70,9 +70,9 @@ namespace CommonCartridge.Core
             return result;
         }
 
-        public CCParserResult FromCCArchive<T>(string path)
+        public ParserResult<T> FromCCArchive<T>(string path)
         {
-            var result = new CCParserResult();
+            var result = new ParserResult<T>();
 
             if (!File.Exists(path))
             {
@@ -114,9 +114,9 @@ namespace CommonCartridge.Core
             return result;
         }
 
-        public CCParserResult FromCCFile<T>(string path, string directory)
+        public ParserResult<T> FromCCFile<T>(string path, string directory)
         {
-            var result = new CCParserResult();
+            var result = new ParserResult<T>();
 
             if (!File.Exists(path))
             {
@@ -141,9 +141,9 @@ namespace CommonCartridge.Core
             return result;
         }
 
-        public CCParserResult FromCCXml<T>(string content, string directory)
+        public ParserResult<T> FromCCXml<T>(string content, string directory)
         {
-            var result = new CCParserResult();
+            var result = new ParserResult<T>();
 
             if (content == null || string.IsNullOrWhiteSpace(content))
             {
@@ -159,7 +159,7 @@ namespace CommonCartridge.Core
                 var serializer = new XmlSerializer(typeof(T));
                 using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
                 {
-                    result.Manifest = serializer.Deserialize(stream);
+                    result.ResultObject = (T)serializer.Deserialize(stream);
                 }
 
                 result = BuildManifest<T>(result, directory);
@@ -175,108 +175,122 @@ namespace CommonCartridge.Core
 
         #region Private Methods
 
-        private CCParserResult BuildManifest<T>(CCParserResult result, string directory)
+        ParserResult<T> BuildManifest<T>(ParserResult<T> result, string directory)
         {
             if (typeof(T).Equals(typeof(Models.v1_0.ManifestType)))
             {
-                if (result.Manifest is Models.v1_0.ManifestType v0Manifest && v0Manifest.Resources != null && v0Manifest.Resources.Resource.Count > 0)
+                if (result.ResultObject is Models.v1_0.ManifestType)
                 {
-                    foreach (var r in v0Manifest.Resources.Resource.Where(r => r.Type != "webcontent"))
-                    {
-                        foreach (var f in r.File.Where(f => !string.IsNullOrWhiteSpace(f.Href)))
+                    var v0Manifest = result.ResultObject as Models.v1_0.ManifestType;
+                    if (v0Manifest.Resources != null && v0Manifest.Resources.Resource.Count > 0) {
+                        foreach (var r in v0Manifest.Resources.Resource.Where(r => r.Type != "webcontent"))
                         {
-                            try
+                            foreach (var f in r.File.Where(f => !string.IsNullOrWhiteSpace(f.Href)))
                             {
-                                if (!f.Href.Contains("http"))
+                                try
                                 {
-                                    f.Data = XDocument.Load(Path.Combine(directory, f.Href));
+                                    if (!f.Href.Contains("http"))
+                                    {
+                                        f.Data = XDocument.Load(Path.Combine(directory, f.Href));
+                                    }
+                                    else
+                                    {
+                                        f.Data = XDocument.Load(f.Href);
+                                    }
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    f.Data = XDocument.Load(f.Href);
+                                    result.Errors.Add(ex);
                                 }
-                            }
-                            catch (Exception ex)
-                            {
-                                result.Errors.Add(ex);
                             }
                         }
                     }
                 }
             } else if (typeof(T).Equals(typeof(Models.v1_1.ManifestType)))
             {
-                if (result.Manifest is Models.v1_1.ManifestType v1Manifest && v1Manifest.Resources != null && v1Manifest.Resources.Resource.Count > 0)
+                if (result.ResultObject is Models.v1_1.ManifestType)
                 {
-                    foreach (var r in v1Manifest.Resources.Resource.Where(r => r.Type != Models.v1_1.ResourceTypeType.webcontent))
-                    {
-                        foreach (var f in r.File.Where(f => !string.IsNullOrWhiteSpace(f.Href)))
+                    var v1Manifest = result.ResultObject as Models.v1_1.ManifestType;
+                    if (v1Manifest.Resources != null && v1Manifest.Resources.Resource.Count > 0) {
+                        foreach (var r in v1Manifest.Resources.Resource.Where(r => r.Type != Models.v1_1.ResourceTypeType.webcontent))
                         {
-                            try
+                            foreach (var f in r.File.Where(f => !string.IsNullOrWhiteSpace(f.Href)))
                             {
-                                if (!f.Href.Contains("http"))
+                                try
                                 {
-                                    f.Data = XDocument.Load(Path.Combine(directory, f.Href));
+                                    if (!f.Href.Contains("http"))
+                                    {
+                                        f.Data = XDocument.Load(Path.Combine(directory, f.Href));
+                                    }
+                                    else
+                                    {
+                                        f.Data = XDocument.Load(f.Href);
+                                    }
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    f.Data = XDocument.Load(f.Href);
+                                    result.Errors.Add(ex);
                                 }
-                            }
-                            catch (Exception ex)
-                            {
-                                result.Errors.Add(ex);
                             }
                         }
                     }
                 }
             } else if (typeof(T).Equals(typeof(Models.v1_2.ManifestType)))
             {
-                if (result.Manifest is Models.v1_2.ManifestType v2Manifest && v2Manifest.Resources != null && v2Manifest.Resources.Resource.Count > 0)
+                if (result.ResultObject is Models.v1_2.ManifestType)
                 {
-                    foreach (var r in v2Manifest.Resources.Resource.Where(r => r.Type != Models.v1_2.ResourceTypeType.webcontent))
+                    var v2Manifest = result.ResultObject as Models.v1_2.ManifestType;
+                    if (v2Manifest.Resources != null && v2Manifest.Resources.Resource.Count > 0)
                     {
-                        foreach (var f in r.File.Where(f => !string.IsNullOrWhiteSpace(f.Href)))
+                        foreach (var r in v2Manifest.Resources.Resource.Where(r => r.Type != Models.v1_2.ResourceTypeType.webcontent))
                         {
-                            try
+                            foreach (var f in r.File.Where(f => !string.IsNullOrWhiteSpace(f.Href)))
                             {
-                                if (!f.Href.Contains("http"))
+                                try
                                 {
-                                    f.Data = XDocument.Load(Path.Combine(directory, f.Href));
+                                    if (!f.Href.Contains("http"))
+                                    {
+                                        f.Data = XDocument.Load(Path.Combine(directory, f.Href));
+                                    }
+                                    else
+                                    {
+                                        f.Data = XDocument.Load(f.Href);
+                                    }
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    f.Data = XDocument.Load(f.Href);
+                                    result.Errors.Add(ex);
                                 }
-                            }
-                            catch (Exception ex)
-                            {
-                                result.Errors.Add(ex);
                             }
                         }
                     }
                 }
             } else if (typeof(T).Equals(typeof(Models.v1_3.ManifestType)))
             {
-                if (result.Manifest is Models.v1_3.ManifestType v3Manifest && v3Manifest.Resources != null && v3Manifest.Resources.Resource.Count > 0)
+                if (result.ResultObject is Models.v1_3.ManifestType)
                 {
-                    foreach (var r in v3Manifest.Resources.Resource.Where(r => r.Type != "webcontent"))
+                    var v3Manifest = result.ResultObject as Models.v1_3.ManifestType;
+                    if (v3Manifest.Resources != null && v3Manifest.Resources.Resource.Count > 0)
                     {
-                        foreach (var f in r.File.Where(f => !string.IsNullOrWhiteSpace(f.Href)))
+                        foreach (var r in v3Manifest.Resources.Resource.Where(r => r.Type != "webcontent"))
                         {
-                            try
+                            foreach (var f in r.File.Where(f => !string.IsNullOrWhiteSpace(f.Href)))
                             {
-                                if (!f.Href.Contains("http"))
+                                try
                                 {
-                                    f.Data = XDocument.Load(Path.Combine(directory, f.Href));
+                                    if (!f.Href.Contains("http"))
+                                    {
+                                        f.Data = XDocument.Load(Path.Combine(directory, f.Href));
+                                    }
+                                    else
+                                    {
+                                        f.Data = XDocument.Load(f.Href);
+                                    }
                                 }
-                                else
+                                catch (Exception ex)
                                 {
-                                    f.Data = XDocument.Load(f.Href);
+                                    result.Errors.Add(ex);
                                 }
-                            }
-                            catch (Exception ex)
-                            {
-                                result.Errors.Add(ex);
                             }
                         }
                     }

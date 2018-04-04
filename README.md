@@ -58,15 +58,15 @@ var version = versionParser.GetSchemaVersion(fileContent, "blti");
 if (version == Versions.VERSION_1_0)
 {
 	// v0 variable contains a fully structured class representing the LTI 1.0 file
-	var v0 = _parser.FromLTIXml<CommonCartridge.Core.Models.v1_0.CartridgeBasicLTILinkType>(fileContent);
+	var v0 = _parser.FromXml<CommonCartridge.Core.Models.v1_0.CartridgeBasicLTILinkType>(fileContent);
 } else if (version == Versions.VERSION_1_1)
 {
 	// v1 variable contains a fully structured class representing the LTI 1.1 file
-	var v1 = _parser.FromLTIXml<CommonCartridge.Core.Models.v1_1.CartridgeBasicLTILinkType>(fileContent);
+	var v1 = _parser.FromXml<CommonCartridge.Core.Models.v1_1.CartridgeBasicLTILinkType>(fileContent);
 } else if (version == Versions.VERSION_1_2)
 {
 	// v1_1 variable contains a fully structured class representing the LTI 1.1.2 file
-	var v1_1 = _parser.FromLTIXml<CommonCartridge.Core.Models.v1_1_1.CartridgeBasicLTILinkType>(fileContent);
+	var v1_1 = _parser.FromXml<CommonCartridge.Core.Models.v1_1_1.CartridgeBasicLTILinkType>(fileContent);
 }
 ```
 
@@ -76,15 +76,15 @@ if (version == Versions.VERSION_1_0)
 
 Method | Return | Description
 ----------|------|------------
-FromLTIFile&lt;T&gt; | BasicLTIParserResult | Same as FromLTIXml, but also loads file from specified path before parsing
-FromLTIXml&lt;T&gt; | BasicLTIParserResult | Loads XML into XDocument and deserializes to provided LTI class
-FromCCArchive&lt;T&gt; | CCParserResult | Verifies extension of archive, attemps to unzip into a temp directory, and looks for an imsmanifest.xml file to pass to FromCCFile
-FromCCFile&lt;T&gt; | CCParserResult | Same as FromCCXml, but also loads file from specified path before parsing
-FromCCXml&lt;T&gt; | CCParserResult | Loads XML into XDocument and deserializes to provided CC class
+FromFile&lt;T&gt; | ParserResult<T> | Same as FromXml, but also loads file from specified path before parsing
+FromXml&lt;T&gt; | ParserResult<T> | Loads XML into XDocument and deserializes to provided class
+FromCCArchive&lt;T&gt; | ParserResult<T> | Verifies extension of archive, attemps to unzip into a temp directory, and looks for an imsmanifest.xml file to pass to FromCCFile
+FromCCFile&lt;T&gt; | ParserResult<T> | Same as FromCCXml, but also loads file from specified path before parsing
+FromCCXml&lt;T&gt; | ParserResult<T> | Loads XML into XDocument and deserializes to provided CC class
 
 ### IVersionParser
 
 Method | Return | Description
 ----------|------|------------
-GetSchemaVersionFromFile | string | Same as GetSchemaVersion, but also loads file from specified path before parsing
-GetSchemaVersion | string | Loads XML into XDocument attempts to read version string from XML schemaversion attribute
+GetSchemaVersionFromFile | string, string | Same as GetSchemaVersion, but also loads file from specified path before parsing
+GetSchemaVersion | string, string | Loads XML into XDocument attempts to read version string from XML schemaversion attribute. Second param (prefix) is optional, will attempt to read the version from a custom namespace. Default empty.

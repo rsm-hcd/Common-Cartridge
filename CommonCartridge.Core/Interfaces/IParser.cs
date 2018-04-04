@@ -4,10 +4,10 @@ namespace CommonCartridge.Core.Interfaces
 {
     public interface IParser
     {
-        BasicLTIParserResult FromLTIFile<T>(string path);
-        BasicLTIParserResult FromLTIXml<T>(string content);
-        CCParserResult FromCCArchive<T>(string path);
-        CCParserResult FromCCFile<T>(string path, string directory);
-        CCParserResult FromCCXml<T>(string content, string directory);
+        ParserResult<T> FromFile<T>(string path);
+        ParserResult<T> FromXml<T>(string content);
+        ParserResult<T> FromCCArchive<T>(string path);
+        ParserResult<T> FromCCFile<T>(string path, string directory);
+        ParserResult<T> FromCCXml<T>(string content, string directory);
     }
 }
