@@ -37,7 +37,7 @@ public partial class ObjectbankType
         this._item = new List<ItemType>();
     }
     
-    [System.Xml.Serialization.XmlElementAttribute("qtimetadata", IsNullable=false]
+    [System.Xml.Serialization.XmlElementAttribute("qtimetadata", IsNullable=false)]
     public QtimetadataType Qtimetadata
     {
         get
