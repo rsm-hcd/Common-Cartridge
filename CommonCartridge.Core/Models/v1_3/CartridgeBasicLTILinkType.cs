@@ -19,8 +19,8 @@ using System.Collections.Generic;
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(TypeName="CartridgeBasicLTILink.Type", Namespace="http://www.imsglobal.org/xsd/imslticc_v1p3")]
-[System.Xml.Serialization.XmlRootAttribute("cartridge_basiclti_link", Namespace="http://www.imsglobal.org/xsd/imslticc_v1p3", IsNullable=false)]
+[System.Xml.Serialization.XmlTypeAttribute(TypeName="CartridgeBasicLTILink.Type", Namespace= "http://www.imsglobal.org/xsd/imsccv1p3/imscp_v1p1")]
+[System.Xml.Serialization.XmlRootAttribute("cartridge_basiclti_link", Namespace= "http://www.imsglobal.org/xsd/imsccv1p3/imscp_v1p1", IsNullable=false)]
 public partial class CartridgeBasicLTILinkType : BasicLTILinkType
 {
     

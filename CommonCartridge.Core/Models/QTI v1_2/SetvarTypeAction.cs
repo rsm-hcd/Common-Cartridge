@@ -21,7 +21,8 @@ using System.Collections.Generic;
 [System.Xml.Serialization.XmlRootAttribute("setvarTypeAction")]
 public enum SetvarTypeAction
 {
-    
+    /// <remarks/>
+    Add,
     /// <remarks/>
     Set,
 }
